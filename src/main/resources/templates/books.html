@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Knjige</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Spisak knjiga</h1>
+
+
+<form th:action="@{/logout}" method="post" style="display:inline;">
+    <button type="submit">Logout</button>
+</form>
+
+<th:block th:if="${isAdmin}">
+    <a href="/users-view">&#128202; Svi korisnici</a>
+</th:block>
+
+<th:block th:if="${isAdmin}">
+    <a href="/books-view/new">&#10133; Dodaj novu knjigu</a>
+</th:block>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Naslov</th>
+        <th>ISBN</th>
+        <th>Autor</th>
+        <th>Žanr</th>
+        <th:block th:if="${isStudent}">
+            <th>Iznajmi</th>
+        </th:block>
+        <th:block th:if="${isAdmin}">
+            <th>Obriši</th>
+        </th:block>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}"></td>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.isbn}"></td>
+        <td th:text="${book.author != null ? book.author.firstName + ' ' + book.author.lastName : 'Nepoznat'}"></td>
+        <td th:text="${book.genre != null ? book.genre.name : 'N/A'}"></td>
+
+        <td>
+            <th:block th:if="${isStudent}">
+                <form th:action="@{/loans-view/borrow}" method="post">
+                    <input type="hidden" name="bookId" th:value="${book.id}"/>
+                    <button type="submit">&#128214;</button>
+                </form>
+            </th:block>
+            <th:block th:if="${isAdmin}">
+                <a th:href="@{/books-view/delete/{id}(id=${book.id})}">&#128465;</a>
+            </th:block>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+<div>
+    <th:block th:if="${isStudent}">
+        <a href="/loans-view/my">&#128218; Moje pozajmice</a>
+    </th:block>
+
+    <th:block th:if="${isAdmin}">
+        <a href="/loans-view">&#128202; Sve pozajmice</a>
+    </th:block>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sve pozajmice</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Sve pozajmice</h1>
+
+
+<form th:action="@{/logout}" method="post" style="display:inline;">
+    <button type="submit">Logout</button>
+</form>
+
+<br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>Korisnik</th>
+        <th>Knjiga</th>
+        <th>Pozajmljeno</th>
+        <th>Vraćeno</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="loan : ${loans}">
+        <td th:text="${loan.user.username}"></td>
+        <td th:text="${loan.book.title}"></td>
+        <td th:text="${loan.borrowDate}"></td>
+        <td th:text="${loan.returnDate != null ? loan.returnDate : 'Nije vraćeno'}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/books-view">&#9194; Nazad na knjige</a>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Korisnici</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Lista korisnika</h1>
+
+
+<form th:action="@{/logout}" method="post" style="display:inline;">
+    <button type="submit">Logout</button>
+</form>
+
+<br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Korisničko ime</th>
+        <th>Uloga</th>
+        <th>Akcija</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.role}"></td>
+        <td>
+            <a class="button-link"
+               th:href="@{'/users-view/delete/' + ${user.id}}"
+               onclick="return confirm('Da li ste sigurni da želite da obrišete korisnika?');">
+                Obriši
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/books-view">&#9194; Nazad na knjige</a>
+
+</body>
+</html>
